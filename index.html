@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e8e6d5">
+  <meta name="description" content="悟空打白骨精：用双手操控传统皮影，演绎三打白骨精。">
+  <title>悟空打白骨精 — 指尖皮影戏台</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./scenery.css">
+</head>
+<body>
+  <main class="theatre" id="theatre">
+    <div class="curtain-texture" aria-hidden="true"></div>
+    <div class="curtain-edge left" aria-hidden="true"></div>
+    <div class="curtain-edge right" aria-hidden="true"></div>
+    <div class="stage-ground" aria-hidden="true"></div>
+    <canvas id="stage" aria-label="悟空打白骨精皮影戏台。左手控制孙悟空，右手控制白骨精。左右移手带动对应人物移动，五指分别操控四肢和点头。" role="img"></canvas>
+
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="皮影首页"><span class="brand-seal">影</span><span class="brand-copy"><span data-custom-text="brand">悟空打白骨精</span><small>SHADOW THEATRE</small></span></a>
+      <div class="header-right"><button class="customize-button" id="customize-button" title="修改文字与界面大小">自定义</button><span class="header-note" data-custom-text="headerNote">金箍棒起 · 妖骨现形</span><button class="icon-button" id="fullscreen" title="全屏戏台" aria-label="全屏戏台"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button><button class="icon-button" id="help-top" title="手势说明" aria-label="手势说明"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.8 2.1c-.9.6-1.3 1-1.3 2.4m0 2.5v.5"/></svg></button></div>
+    </header>
+
+    <section class="intro" aria-label="戏台介绍">
+      <p class="eyebrow"><span></span><b data-custom-text="eyebrow">西游新编 · 指尖演义</b></p>
+      <h1 data-custom-text="headline">三打白骨精，&#10;一棒定乾坤。</h1>
+      <p class="intro-copy" data-custom-text="description">一念善恶难辨，三棒照见真身。&#10;左手请大圣，右手驭妖云。</p>
+      <div class="intro-rule"></div>
+      <p class="intro-foot" data-custom-text="invitation">双手起落，&#10;同演西游一场。</p>
+    </section>
+
+    <nav class="cast" aria-label="选择皮影角色">
+      <span class="cast-label" data-custom-text="castLabel">悟空对阵白骨精 · 选择操控</span>
+      <button class="cast-button active" data-character="warrior" aria-pressed="true"><span class="cast-number">左手</span><span class="cast-copy"><span data-custom-text="warriorName">孙悟空</span><small id="warrior-hand-status">等待左手</small></span><span class="cast-dot"></span></button>
+      <button class="cast-button" data-character="scholar" aria-pressed="false"><span class="cast-number">右手</span><span class="cast-copy"><span data-custom-text="scholarName">白骨精</span><small id="scholar-hand-status">等待右手</small></span><span class="cast-dot"></span></button>
+    </nav>
+
+    <div class="side-inscription" aria-hidden="true"><span data-custom-text="inscriptionOne">三打白骨</span><span data-custom-text="inscriptionTwo">大圣除妖</span><i>入戏</i></div>
+    <div class="stage-hint" id="stage-hint"><span class="hint-mark">✧</span><span data-custom-text="stageHint">左手牵悟空 · 右手牵白骨 · 移手移影</span></div>
+    <div class="asset-loading" id="asset-loading"><span class="spinner"></span> 戏角正在候场</div>
+
+    <footer class="console">
+      <section class="camera-card" aria-label="摄像头预览">
+        <div class="camera-window">
+          <video id="camera-video" muted autoplay playsinline aria-label="镜像摄像头画面"></video>
+          <canvas id="hand-overlay" aria-hidden="true"></canvas>
+          <div class="camera-placeholder" id="camera-placeholder"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 25V10a2 2 0 0 1 4 0v8-12a2 2 0 0 1 4 0v12-9a2 2 0 0 1 4 0v11-6a2 2 0 0 1 4 0v9c0 5-4 8-8 8h-1c-3 0-6-2-8-4l-5-6a2 2 0 0 1 3-3l3 3" transform="translate(-2,-2)"/></svg><span>让指尖进入画面</span></div>
+          <span class="camera-badge" id="camera-badge">摄像头未开启</span>
+        </div>
+        <span class="privacy-note"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor"><rect x="3" y="6" width="8" height="6" rx="1"/><path d="M5 6V4a2 2 0 0 1 4 0v2"/></svg> 画面仅在本机处理</span>
+      </section>
+
+      <section class="performance" aria-label="当前演出状态">
+        <div class="performance-overline"><span class="status-dot" id="status-dot"></span><span id="tracking-state" role="status">双角同台 · 左手大圣 / 右手白骨</span></div>
+        <span class="selected-actor" id="selected-actor">孙悟空 · 左手</span>
+        <div class="performance-title"><span id="action-label">静候</span><span class="performance-separator">/</span><span id="action-description">妖云将起</span></div>
+        <div class="gesture-readings"><span>固定朝向 <b id="facing-reading">右</b></span><span>手势 <b id="fist-reading">—</b></span><span id="input-reading">自由体验</span></div>
+        <div class="finger-readings" aria-label="五指控制状态"><span data-finger="index" title="食指 → 右腿"><i>食·右腿</i><b>0%</b></span><span data-finger="middle" title="中指 → 左腿"><i>中·左腿</i><b>0%</b></span><span data-finger="ring" title="无名指 → 右胳膊"><i>无·右臂</i><b>0%</b></span><span data-finger="pinky" title="小拇指 → 左胳膊"><i>小·左臂</i><b>0%</b></span><span data-finger="thumb" title="大拇指 → 点头"><i>拇·点头</i><b>0%</b></span></div>
+      </section>
+
+      <section class="controls" aria-label="演出操作">
+        <div class="primary-controls"><button class="button primary" id="camera-button"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="5" width="11" height="10" rx="2"/><path d="m13 8 5-3v10l-5-3"/></svg><span>开启摄像头</span></button><button class="button secondary" id="demo-button" aria-pressed="false"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="m7 4 8 6-8 6Z"/></svg><span>演示模式</span></button></div>
+        <div class="manual-controls"><button id="walk-button" title="按住按钮或空格键行走">按住行步 <kbd>Space</kbd></button><span>·</span><button id="bow-button" title="按住按钮或 B 键低头">握拳低头 <kbd>B</kbd></button><span>·</span><button id="help-button">手势说明 <span>↗</span></button></div>
+      </section>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <dialog id="help-dialog" aria-labelledby="help-title">
+      <button class="dialog-close icon-button" id="help-close" aria-label="关闭手势说明">×</button>
+      <p class="eyebrow"><span></span> 指尖操影 · 五指各司其职</p>
+      <h2 id="help-title">抬手，便是开场。</h2>
+      <p class="help-intro">孙悟空与白骨精同时在台上。开启摄像头后，将双手完整放入画面：左手控制孙悟空，右手控制白骨精。掌心朝向镜头，保持光线充足。</p>
+      <div class="gesture-lessons">
+        <article><span class="lesson-number">壹</span><div><h3>食指 → 右腿 · 中指 → 左腿</h3><p>分别弯曲、伸直这两根手指，对应的腿独立摆动。动作幅度随弯曲程度变化，长袍衣摆跟随腿部轻摆。</p></div><span class="lesson-symbol">⇅</span></article>
+        <article><span class="lesson-number">贰</span><div><h3>无名指 → 右臂 · 小拇指 → 左臂</h3><p>无名指控制人物右胳膊，小拇指控制左胳膊。每根手指单独带动上臂、前臂和袖子。</p></div><span class="lesson-symbol">↗</span></article>
+        <article><span class="lesson-number">叁</span><div><h3>大拇指 → 点头 · 握拳 → 低头</h3><p>大拇指弯曲时点头、伸直时抬回。四根手指同时收拢握拳，人物低头；张开后恢复。</p></div><span class="lesson-symbol">◎</span></article>
+        <article><span class="lesson-number">肆</span><div><h3>左右移手 → 对应人物移动</h3><p>左手左右移动带动孙悟空，右手左右移动带动白骨精。悟空始终朝右，白骨精始终朝左，两人的双脚操纵线随脚部摆动。按你的实际左右手识别；两只手可以同时做不同动作。</p></div><span class="lesson-symbol">↔</span></article>
+      </div>
+      <div class="help-alternative"><strong>也可以，先试一场</strong><p>先点选戏角或按 1 / 2，选择手动操控的人物。按住 Q / W 分别摆右腿 / 左腿，E / R 分别摆右臂 / 左臂，T 点头，B 低头。方向键或拖动移位，空格键行步，点按低头。手机可使用底部按钮。右上角「自定义」可修改舞台文字及界面大小，设置自动保存在当前浏览器中。</p></div>
+      <details class="diagnostics"><summary>识别与运行信息</summary><p id="diagnostic-text">摄像头未开启。角色素材与双手识别模型均随网页提供。</p><p>Chrome / Edge 支持直接打开后授权摄像头。若浏览器限制访问，可用 start.bat。画面不上传。关闭摄像头后会立即停止视频轨道。最多识别两只手：左手固定绑定孙悟空，右手固定绑定白骨精。任一只手丢失时，只让对应人物的动作恢复，位置保持。</p></details>
+      <button class="button primary help-start" id="help-start">知道了，入戏</button>
+    </dialog>
+    <dialog id="customize-dialog" aria-labelledby="customize-title">
+      <button class="dialog-close icon-button" id="customize-close" aria-label="关闭自定义设置">×</button>
+      <p class="eyebrow"><span></span> 我的戏台 · 随心布置</p>
+      <h2 id="customize-title">把这场戏，写成你的。</h2>
+      <p class="help-intro">修改即刻生效，关闭后可查看完整舞台。设置会在当前浏览器中保留。</p>
+      <div class="size-setting"><label for="ui-size">界面大小 <output id="ui-size-value" for="ui-size">100%</output></label><input id="ui-size" type="range" min="70" max="130" step="1" value="100"><div class="range-labels"><span>更紧凑 · 70%</span><span>更清晰 · 130%</span></div><p>调整文字、按钮、摄像头预览和操作面板大小。</p></div>
+      <div id="custom-text-fields" class="custom-text-fields"></div>
+      <p id="custom-save-status" class="save-status" role="status">设置保存在当前浏览器</p>
+      <div class="custom-actions"><button class="button secondary" id="reset-customization">恢复默认</button><button class="button primary" id="customize-done">完成，回到戏台</button></div>
+    </dialog>
+    <noscript><div class="noscript">请开启 JavaScript 后体验皮影交互。</div></noscript>
+  </main>
+  <script src="./browser-bundle.js"></script>
+</body>
+</html>

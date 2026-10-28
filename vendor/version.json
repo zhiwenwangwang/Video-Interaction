@@ -1,0 +1,6 @@
+{
+  "package": "@mediapipe/tasks-vision",
+  "version": "1.1.0",
+  "packageSource": "https://registry.npmjs.org/@mediapipe/tasks-vision/-/tasks-vision-1.1.0.tgz",
+  "modelSource": "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"
+}

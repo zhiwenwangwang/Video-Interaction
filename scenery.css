@@ -1,0 +1,27 @@
+/* Journey to the West: painted mountains, silk mist and gilded cloud borders. */
+:root{--ink:#33433d;--muted:#647365;--paper:#f2efdf;--red:#8b382b;--line:rgba(65,84,68,.22)}
+body{background:#dce1d3}
+.theatre{background:#efe9d8 url('./assets/scenery/journey-west-backdrop.webp') center center/100% 100% no-repeat}
+.curtain-texture{opacity:.055}
+.curtain-edge{width:23px;background:linear-gradient(90deg,rgba(35,61,51,.15),transparent);border-left-color:rgba(142,117,63,.3)}
+.stage-ground{height:160px;background:linear-gradient(transparent,rgba(32,68,52,.12))}
+.masthead{border-bottom-color:rgba(132,112,68,.3)}
+.brand-seal{box-shadow:inset 0 0 0 3px var(--red),inset 0 0 0 4px rgba(246,219,155,.65)}
+.intro h1{text-shadow:0 1px 18px rgba(250,245,221,.9)}
+.intro-copy,.intro-foot,.eyebrow{opacity:.9}
+.cast-button{background:rgba(246,243,227,.72);border-color:rgba(111,127,97,.17);box-shadow:0 3px 16px rgba(46,69,48,.025)}
+.cast-button:hover{background:rgba(252,248,230,.9)}
+.cast-button.active{border-color:rgba(137,110,58,.55);background:rgba(252,247,227,.88)}
+.cast-label{opacity:.9;text-shadow:0 1px 5px #faf4df}
+.console{background:rgba(239,239,219,.89);border-color:rgba(135,118,68,.4);box-shadow:0 8px 40px rgba(34,64,46,.1),inset 0 1px rgba(255,251,229,.8);backdrop-filter:blur(10px)}
+.camera-window{background:#30473b}
+.camera-placeholder,.camera-badge{color:#e5dcb8}
+.button.secondary,.customize-button{background:rgba(249,246,225,.62);border-color:rgba(85,103,78,.3)}
+.button.secondary:hover,.button.secondary[aria-pressed=true]{background:rgba(148,173,137,.22)}
+.side-inscription{opacity:.65}
+dialog{background:#f2efdf;border-color:#8e9a7e}
+dialog::backdrop{background:#243d3477}
+@media(max-width:800px){
+  .theatre{background-image:url('./assets/scenery/journey-west-mobile.webp');background-position:center;background-size:cover}
+  .side-inscription{opacity:.4}
+}
